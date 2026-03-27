@@ -10,10 +10,10 @@
   --gold-light:    #E8C96A;
   --gold-bright:   #FFD700;
   --gold-dark:     #8B6914;
-  --obsidian:      #080808;
-  --obsidian-card: #0F0F0F;
-  --obsidian-surface: #141414;
-  --obsidian-border: #1E1E1E;
+  --obsidian:      transparent;
+  --obsidian-card: rgba(15, 15, 15, 0.5);
+  --obsidian-surface: rgba(20, 20, 20, 0.3);
+  --obsidian-border: rgba(30, 30, 30, 0.6);
 
   /* Gold gradient texto */
   --gradient-gold: linear-gradient(

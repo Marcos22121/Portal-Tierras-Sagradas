@@ -18,9 +18,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head />
-      <body className="bg-obsidian text-gray-300 font-crimson antialiased">
+      <body className="text-gray-300 font-crimson antialiased" style={{ backgroundColor: '#050505' }}>
         <Header />
-        <main>{children}</main>
+        <main className="flex-grow relative z-10">{children}</main>
         <Footer />
       </body>
     </html>
