@@ -5,17 +5,10 @@ import Link from 'next/link';
 // ─── Columnas del footer ──────────────────────────────────────────────────────
 const FOOTER_LINKS = {
   explorar: [
-<<<<<<< HEAD
-    { label: 'Leyendas',    href: '#leyendas' },
-    { label: 'Biografías',  href: '#biografias' },
-    { label: 'Museo',       href: '#museo' },
-    { label: 'Tierras',     href: '#tierras' },
-=======
     { label: 'Leyendas', href: '#leyendas' },
     { label: 'Biografías', href: '#biografias' },
     { label: 'Museo', href: '#museo' },
     { label: 'Tierras', href: '#tierras' },
->>>>>>> ee44f1168bbae0bff31c4a1ebe3896f1800f2a84
     { label: 'Videojuegos', href: '#videojuegos' },
   ],
   proyecto: [
@@ -36,12 +29,8 @@ export default function Footer() {
     <footer
       className="relative pt-16 pb-8 px-6"
       style={{
-<<<<<<< HEAD
-        background: '#050505',
-=======
         background: 'rgba(5, 5, 5, 0.4)',
         backdropFilter: 'blur(3px)',
->>>>>>> ee44f1168bbae0bff31c4a1ebe3896f1800f2a84
         borderTop: '1px solid rgba(201,168,76,0.2)',
       }}
     >
@@ -149,8 +138,6 @@ function FooterCol({
   title: string;
   links: ReadonlyArray<{ label: string; href: string }>;
 }) {
-<<<<<<< HEAD
-=======
   const playHoverSound = () => {
     const audio = new Audio('/sfx/uitic.mp3');
     audio.volume = 0.4;
@@ -159,7 +146,6 @@ function FooterCol({
     });
   };
 
->>>>>>> ee44f1168bbae0bff31c4a1ebe3896f1800f2a84
   return (
     <div className="flex flex-col gap-4">
       {/* Título de columna */}
@@ -182,10 +168,7 @@ function FooterCol({
           <li key={link.href}>
             <a
               href={link.href}
-<<<<<<< HEAD
-=======
               onMouseEnter={playHoverSound}
->>>>>>> ee44f1168bbae0bff31c4a1ebe3896f1800f2a84
               className="footer-link font-crimson text-sm group flex items-center gap-2"
             >
               <span
