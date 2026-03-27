@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Variables ─────────────────────────────────────────── */
+:root {
+  --gold:          #C9A84C;
+  --gold-light:    #E8C96A;
+  --gold-bright:   #FFD700;
+  --gold-dark:     #8B6914;
+  --obsidian:      #080808;
+  --obsidian-card: #0F0F0F;
+  --obsidian-surface: #141414;
+  --obsidian-border: #1E1E1E;
+
+  /* Gold gradient texto */
+  --gradient-gold: linear-gradient(
+    135deg,
+    #8B6914 0%,
+    #C9A84C 30%,
+    #FFD700 50%,
+    #C9A84C 70%,
+    #8B6914 100%
+  );
+
+  /* Gold gradient borde */
+  --gradient-gold-border: linear-gradient(
+    90deg,
+    #5a420d,
+    #C9A84C,
+    #FFD700,
+    #C9A84C,
+    #5a420d
+  );
+}
+
+/* ─── Base ───────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--obsidian);
+  color: #d4d0c8;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--obsidian);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dark);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ─── Utility Classes ────────────────────────────────────────── */
+
+/* Texto con gradiente dorado */
+.text-gold-gradient {
+  background: var(--gradient-gold);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold-gradient-animated {
+  background: var(--gradient-gold);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerText 3s linear infinite;
+}
+
+@keyframes shimmerText {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Borde dorado con gradiente */
+.border-gold-gradient {
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+
+.border-gold-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--gradient-gold-border);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Botón dorado estilo mitológico */
+.btn-mythic {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  text-decoration: none;
+
+  /* Fondo obsidiana sutil */
+  background-color: rgba(8, 8, 8, 0.85);
+
+  /* Borde mediante pseudo-elemento */
+  border: 1px solid transparent;
+}
+
+.btn-mythic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(90deg, #5a420d, #C9A84C, #FFD700, #C9A84C, #5a420d);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.btn-mythic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(255,215,0,0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.btn-mythic:hover::before {
+  background: linear-gradient(90deg, #8B6914, #FFD700, #fff0a0, #FFD700, #8B6914);
+}
+
+.btn-mythic:hover::after {
+  opacity: 1;
+}
+
+.btn-mythic:hover {
+  color: var(--gold-bright);
+  box-shadow:
+    0 0 12px rgba(255, 215, 0, 0.25),
+    0 0 30px rgba(201, 168, 76, 0.1),
+    inset 0 0 20px rgba(255, 215, 0, 0.04);
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+/* Texto de btn-mythic con gradiente propio */
+.btn-mythic .btn-text {
+  background: linear-gradient(135deg, #C9A84C 0%, #FFD700 50%, #C9A84C 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-mythic:hover .btn-text {
+  background: linear-gradient(135deg, #FFD700 0%, #fff0a0 50%, #FFD700 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 4px rgba(255,215,0,0.5));
+}
+
+/* Ornamento separador */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dark), var(--gold), var(--gold-dark), transparent);
+}
+
+/* Card de artículo */
+.card-mythic {
+  background: var(--obsidian-card);
+  border: 1px solid var(--obsidian-border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-mythic:hover {
+  border-color: var(--gold-dark);
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.1);
+}
+
+/* Heading fonts */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cinzel', serif;
+}
+
+/* Footer link hover */
+.footer-link {
+  color: rgba(180, 170, 150, 0.55);
+  transition: color 0.25s ease;
+}
+.footer-link:hover {
+  color: var(--gold-light);
+}
+
