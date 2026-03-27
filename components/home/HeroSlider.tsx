@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import MythicButton from '@/components/ui/MythicButton';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SLIDES — Editá el array de abajo para cambiar las imágenes del hero slider.
@@ -243,9 +244,9 @@ export default function HeroSlider() {
               animate="visible"
               className="mt-4"
             >
-              <a href="#leyendas" className="btn-mythic inline-flex">
-                <span className="btn-text">Explorar la Mitología</span>
-              </a>
+              <MythicButton href="#leyendas" className="inline-flex">
+                Explorar la Mitología
+              </MythicButton>
             </motion.div>
           </motion.div>
         </AnimatePresence>

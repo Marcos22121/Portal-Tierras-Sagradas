@@ -5,10 +5,10 @@ import Link from 'next/link';
 // ─── Columnas del footer ──────────────────────────────────────────────────────
 const FOOTER_LINKS = {
   explorar: [
-    { label: 'Leyendas',    href: '#leyendas' },
-    { label: 'Biografías',  href: '#biografias' },
-    { label: 'Museo',       href: '#museo' },
-    { label: 'Tierras',     href: '#tierras' },
+    { label: 'Leyendas', href: '#leyendas' },
+    { label: 'Biografías', href: '#biografias' },
+    { label: 'Museo', href: '#museo' },
+    { label: 'Tierras', href: '#tierras' },
     { label: 'Videojuegos', href: '#videojuegos' },
   ],
   proyecto: [
@@ -137,6 +137,14 @@ function FooterCol({
   title: string;
   links: ReadonlyArray<{ label: string; href: string }>;
 }) {
+  const playHoverSound = () => {
+    const audio = new Audio('/sfx/uitic.mp3');
+    audio.volume = 0.4;
+    audio.play().catch(() => {
+      // Ignorar el error si el navegador bloquea el autoplay antes de la interacción del usuario
+    });
+  };
+
   return (
     <div className="flex flex-col gap-4">
       {/* Título de columna */}
@@ -159,6 +167,7 @@ function FooterCol({
           <li key={link.href}>
             <a
               href={link.href}
+              onMouseEnter={playHoverSound}
               className="footer-link font-crimson text-sm group flex items-center gap-2"
             >
               <span

@@ -46,7 +46,6 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  background-color: red !important;
 }
 
 body {
@@ -209,6 +208,33 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 4px rgba(255,215,0,0.5));
+}
+
+/* Efecto de brillo metálico que sigue al cursor */
+.btn-mythic .btn-border-shine {
+  position: absolute;
+  inset: 0; 
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 50; /* Aún más encima */
+  background: radial-gradient(
+    100px circle at var(--x, 50%) var(--y, 50%),
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.4) 40%,
+    transparent 100%
+  );
+  /* Máscara para que solo se vea en el borde interior (grosor de 1px) */
+  -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  mask-composite: exclude;
+  padding: 1px;
+}
+
+.btn-mythic:hover .btn-border-shine {
+  opacity: 1;
 }
 
 /* Ornamento separador */

@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import MythicButton from '@/components/ui/MythicButton';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CATEGORÍAS PRINCIPALES — Editá este array para modificar las secciones.
@@ -36,7 +37,7 @@ const SECTIONS = [
 ] as const;
 
 export default function CategorySections() {
-  const [active, setActive] = useState<string | null>(null);
+  const [active, setActive] = useState<string | null>('leyendas');
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const toggle = (id: string) => {
@@ -71,10 +72,10 @@ export default function CategorySections() {
         {SECTIONS.map((sec) => {
           const isActive = active === sec.id;
           return (
-            <button
+            <MythicButton
               key={sec.id}
               onClick={() => toggle(sec.id)}
-              className="btn-mythic min-w-[160px]"
+              className="min-w-[160px]"
               style={
                 isActive
                   ? {
@@ -84,8 +85,8 @@ export default function CategorySections() {
                   : {}
               }
             >
-              <span className="btn-text">{sec.label}</span>
-            </button>
+              {sec.label}
+            </MythicButton>
           );
         })}
       </div>
@@ -133,7 +134,7 @@ function SectionContent({
       <Corner pos="bottom-0 left-0" flipV />
       <Corner pos="bottom-0 right-0" mirror flipV />
 
-      <div className="max-w-5xl mx-auto text-center">
+      <div className="max-w-[1600px] w-full mx-auto text-center">
         {/* Título de la sección */}
         <h2
           className="font-cinzel text-3xl md:text-4xl font-bold mb-4 text-gold-gradient"
@@ -153,23 +154,92 @@ function SectionContent({
           <span style={{ color: 'var(--gold-dark)', fontSize: '0.7rem' }}>✦</span>
         </div>
 
-        <p className="font-crimson text-lg mb-10" style={{ color: 'rgba(208,200,180,0.6)' }}>
+        <p className="font-crimson text-lg mb-10 max-w-3xl mx-auto" style={{ color: 'rgba(208,200,180,0.6)' }}>
           {section.description}
         </p>
 
-        {/* Placeholder de contenido vacío */}
-        <div
-          className="flex flex-col items-center justify-center py-12 gap-3"
-          style={{
-            border: '1px dashed rgba(201,168,76,0.15)',
-            borderRadius: '2px',
-          }}
-        >
-          <span style={{ color: 'var(--gold-dark)', fontSize: '2rem' }}>✦</span>
-          <p className="font-cinzel text-sm tracking-widest uppercase" style={{ color: 'rgba(201,168,76,0.3)' }}>
-            Contenido próximamente
-          </p>
-        </div>
+        {/* Contenido condicional: Placeholder o Videojuegos */}
+        {section.id === 'videojuegos' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 text-left mt-10 max-w-[1500px] mx-auto px-4 md:px-0">
+            {/* Juego 1 */}
+            <div className="border-gold-gradient p-8 flex flex-col items-center" style={{ background: '#050505' }}>
+              <div 
+                className="w-full relative flex items-center justify-center overflow-hidden mb-6"
+                style={{ aspectRatio: '630/500', background: '#0a0a0a', border: '1px solid rgba(201,168,76,0.1)' }}
+              >
+                {/* La etiqueta img está lista, fallará silenciosamente si la imagen no existe pero es válido */}
+                <img src="/images/videojuegos/el-senor-del-reino.png" alt="El Señor Del Reino" className="absolute inset-0 w-full h-full object-cover z-0" onError={(e) => e.currentTarget.style.display = 'none'} />
+              </div>
+
+              <h3 className="font-cinzel text-2xl font-bold mb-3 text-center" style={{ color: 'var(--gold-light)' }}>
+                Tierras Sagradas: El Señor Del Reino
+              </h3>
+
+              <div className="flex flex-wrap justify-center gap-2 mb-4">
+                {['Decisiones', 'Elige tu camino', 'Mejoras', 'Narrativo'].map(tag => (
+                  <span key={tag} className="px-3 py-1 text-xs font-cinzel tracking-widest uppercase" style={{ border: '1px solid rgba(139, 105, 20, 0.3)', color: 'var(--gold-muted)', background: 'rgba(0,0,0,0.5)' }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <p className="font-crimson flex-grow text-gray-400 text-center mb-8 max-w-[600px] text-lg">
+                Toma el control y forja el destino de tu propio reino. Tus decisiones alterarán el curso de la historia en las Tierras Sagradas.
+              </p>
+
+              <div className="mt-auto">
+                <MythicButton href="/videojuegos/el-senor-del-reino">
+                  Visitar página
+                </MythicButton>
+              </div>
+            </div>
+
+            {/* Juego 2 */}
+            <div className="border-gold-gradient p-8 flex flex-col items-center" style={{ background: '#050505' }}>
+              <div 
+                className="w-full relative flex items-center justify-center overflow-hidden mb-6"
+                style={{ aspectRatio: '630/500', background: '#0a0a0a', border: '1px solid rgba(201,168,76,0.1)' }}
+              >
+                <img src="/images/videojuegos/peak-of-binohmo-sword.png" alt="Peak of Binohmo Sword" className="absolute inset-0 w-full h-full object-cover z-0" onError={(e) => e.currentTarget.style.display = 'none'} />
+              </div>
+
+              <h3 className="font-cinzel text-2xl font-bold mb-3 text-center" style={{ color: 'var(--gold-light)' }}>
+                Peak of Binohmo Sword
+              </h3>
+
+              <div className="flex flex-wrap justify-center gap-2 mb-4">
+                {['Clicker', 'Incremental', 'Forja', 'Minerales'].map(tag => (
+                  <span key={tag} className="px-3 py-1 text-xs font-cinzel tracking-widest uppercase" style={{ border: '1px solid rgba(139, 105, 20, 0.3)', color: 'var(--gold-muted)', background: 'rgba(0,0,0,0.5)' }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <p className="font-crimson flex-grow text-gray-400 text-center mb-8 max-w-[600px] text-lg">
+                Forja la espada legendaria definitiva. Recolecta minerales raros, mejora tu yunque y asciende al pico del poder.
+              </p>
+
+              <div className="mt-auto">
+                <MythicButton href="/videojuegos/peak-of-binohmo-sword">
+                  Visitar página
+                </MythicButton>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div
+            className="flex flex-col items-center justify-center py-12 gap-3"
+            style={{
+              border: '1px dashed rgba(201,168,76,0.15)',
+              borderRadius: '2px',
+            }}
+          >
+            <span style={{ color: 'var(--gold-dark)', fontSize: '2rem' }}>✦</span>
+            <p className="font-cinzel text-sm tracking-widest uppercase" style={{ color: 'rgba(201,168,76,0.3)' }}>
+              Contenido próximamente
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
