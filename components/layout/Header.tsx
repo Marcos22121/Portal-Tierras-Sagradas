@@ -42,8 +42,21 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-          {/* ── Logo ─────────────────────────────────────────── */}
-          <Link href="/" className="group relative flex flex-col leading-none select-none">
+          {/* ── Logo y Banner ─────────────────────────────────────────── */}
+          <div className="flex items-center gap-4 md:gap-5">
+            <Link href="/">
+              <motion.img 
+                src="/images/demas/banner.webp" 
+                alt="Banner / Emblema" 
+                className="w-9 sm:w-11 h-auto object-contain cursor-pointer opacity-90 drop-shadow-[0_0_8px_rgba(201,168,76,0.3)]"
+                whileHover={{ y: 2, scale: 0.98, opacity: 1 }}
+                whileTap={{ y: 8, scale: 0.92 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                onError={(e: any) => { e.currentTarget.style.display = 'none'; }}
+              />
+            </Link>
+
+            <Link href="/" className="group relative flex flex-col leading-none select-none">
             {/* Texto "TIERRAS" */}
             <span
               className="font-cinzel text-xs tracking-[0.5em] uppercase"
@@ -58,14 +71,9 @@ export default function Header() {
               Sagradas
             </span>
             {/* Línea decorativa bajo el logo */}
-            <span
-              className="absolute -bottom-1 left-0 right-0 h-px transition-all duration-500"
-              style={{
-                background: 'linear-gradient(90deg, transparent, var(--gold), transparent)',
-                opacity: 0,
-              }}
-            />
+            <div className="absolute -bottom-2 left-0 w-0 h-px bg-gold-dark group-hover:w-full transition-all duration-300" />
           </Link>
+          </div>
 
           {/* ── Nav Desktop ──────────────────────────────────── */}
           <nav className="hidden md:flex items-center gap-1">
