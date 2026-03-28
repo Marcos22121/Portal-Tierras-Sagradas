@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, X } from 'lucide-react';
 import MythicButton from '@/components/ui/MythicButton';
 import CosmosBackground from '@/components/ui/CosmosBackground';
+import Link from 'next/link';
+import { urlForImage } from '@/lib/sanity.image';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CATEGORÍAS PRINCIPALES — Editá este array para modificar las secciones.
@@ -38,7 +40,7 @@ const SECTIONS = [
   },
 ] as const;
 
-export default function CategorySections() {
+export default function CategorySections({ dynamicEras = [] }: { dynamicEras?: any[] }) {
   const [active, setActive] = useState<string | null>('leyendas');
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -132,7 +134,7 @@ export default function CategorySections() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
           >
-            <SectionContent section={SECTIONS.find((s) => s.id === active)!} />
+            <SectionContent section={SECTIONS.find((s) => s.id === active)!} dynamicEras={dynamicEras} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -339,11 +341,14 @@ const MUSEO_LORE = [
 // ─── Placeholder de sección ───────────────────────────────────────────────────
 function SectionContent({
   section,
+  dynamicEras,
 }: {
   section: (typeof SECTIONS)[number];
+  dynamicEras: any[];
 }) {
   const [openEra, setOpenEra] = useState<string | null>(null);
-  const [activeStory, setActiveStory] = useState<{ era: typeof ERAS_LORE[0], story: typeof ERAS_LORE[0]['stories'][0] } | null>(null);
+  // activeStory modal only used now if there's any fallback, but for Sanity articles we navigate using Link
+  const [activeStory, setActiveStory] = useState<any | null>(null);
   const [activeBio, setActiveBio] = useState<typeof BIOGRAFIAS_LORE[0] | null>(null);
   const [activeArtifact, setActiveArtifact] = useState<typeof MUSEO_LORE[0] | null>(null);
   const [museoActiveCategory, setMuseoActiveCategory] = useState<string>('armas');
@@ -411,26 +416,29 @@ function SectionContent({
           {section.description}
         </p>
 
-        {/* Contenido condicional: Leyendas, Videojuegos o Placeholder */}
+        {/* Contenido condicional: Leyendas (Dinámico), Videojuegos o Placeholder */}
         {section.id === 'leyendas' ? (
           <div className="flex flex-col gap-8 mt-12 w-full text-left">
-            {ERAS_LORE.map((era) => {
-              const isOpen = openEra === era.id;
+            {dynamicEras.length > 0 ? dynamicEras.map((era: any) => {
+              const isOpen = openEra === era._id;
+              // Imagen de la categoría
+              const eraBgUrl = era.coverImage ? urlForImage(era.coverImage)?.url() : '/images/ui/texture-dark.png';
+
               return (
-                <div key={era.id} className="border border-[rgba(201,168,76,0.2)] rounded-sm overflow-hidden" style={{ background: 'rgba(5,5,5,0.6)', backdropFilter: 'blur(10px)' }}>
+                <div key={era._id} className="border border-[rgba(201,168,76,0.2)] rounded-sm overflow-hidden" style={{ background: 'rgba(5,5,5,0.6)', backdropFilter: 'blur(10px)' }}>
                   {/* Botón / Encabezado de la Era */}
                   <button 
-                    onClick={() => toggleEra(era.id)}
+                    onClick={() => toggleEra(era._id)}
                     className="w-full relative group cursor-pointer overflow-hidden min-h-[160px] flex items-center p-6 md:p-10 border-0 outline-none text-left"
                   >
                     {/* Imagen de fondo de la Era */}
-                    <img src={era.imagePath} alt={era.title} className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700 z-0" onError={(e) => e.currentTarget.style.display = 'none'} />
+                    <img src={eraBgUrl} alt={era.title} className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700 z-0" onError={(e) => e.currentTarget.style.display = 'none'} />
                     <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%)' }}></div>
                     
                     <div className="relative z-10 flex flex-col items-start text-left w-full pr-16 md:w-2/3">
                       <span className="font-cinzel text-xs tracking-widest text-gold border border-gold-dark/30 px-2 py-1 mb-3 bg-black/50">ERA HISTÓRICA</span>
                       <h3 className="font-cinzel text-3xl md:text-5xl font-bold text-gold-light mb-3 drop-shadow-md">{era.title}</h3>
-                      <p className="font-crimson text-gray-300 max-w-3xl text-lg opacity-90 leading-relaxed">{era.description}</p>
+                      <p className="font-crimson text-gray-300 max-w-3xl text-lg opacity-90 leading-relaxed">{era.description || 'Sin descripción disponible.'}</p>
                     </div>
 
                     <div className="absolute right-6 md:right-10 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center border-2 border-gold-dark/40 rounded-full w-12 h-12 group-hover:border-gold-light group-hover:shadow-[0_0_15px_rgba(255,215,0,0.3)] transition-all bg-black/60">
@@ -454,34 +462,42 @@ function SectionContent({
                           {/* Línea de tiempo decorativa (visual simple) */}
                           <div className="hidden md:block absolute left-4 md:left-8 top-10 bottom-10 w-px bg-gold-dark/20"></div>
 
-                          {era.stories.map((story) => (
-                            <div key={story.id} className="border border-gold-dark/20 p-5 flex flex-col group hover:border-gold-dark/70 transition-colors relative bg-[#0a0a0a]/80">
-                              {/* Imagen 1:1 de la historia, más pequeña y centrada */}
-                              <div className="w-[65%] mx-auto aspect-square relative mb-6 overflow-hidden border border-gold-dark/20 bg-black/60 flex items-center justify-center rounded-sm shadow-[0_4px_15px_rgba(0,0,0,0.6)]">
-                                <img 
-                                  src={story.imagePath} 
-                                  alt={story.title} 
-                                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                                />
-                                {/* Placeholder icon si no hay imagen (o si falla) */}
-                                <span className="text-gold-dark/20 text-4xl absolute z-[-1]">✦</span>
-                              </div>
+                          {era.articles && era.articles.length > 0 ? era.articles.map((story: any) => {
+                            const storyBgUrl = story.coverImage ? urlForImage(story.coverImage)?.url() : '/images/ui/texture-dark.png';
+                            return (
+                              <div key={story._id} className="border border-gold-dark/20 p-5 flex flex-col group hover:border-gold-dark/70 transition-colors relative bg-[#0a0a0a]/80">
+                                {/* Imagen 1:1 de la historia */}
+                                <div className="w-[65%] mx-auto aspect-square relative mb-6 overflow-hidden border border-gold-dark/20 bg-black/60 flex items-center justify-center rounded-sm shadow-[0_4px_15px_rgba(0,0,0,0.6)]">
+                                  <img 
+                                    src={storyBgUrl} 
+                                    alt={story.title} 
+                                    className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                  />
+                                </div>
 
-                              <h4 className="font-cinzel text-xl text-gold-light mb-3 group-hover:text-gold-bright transition-colors">{story.title}</h4>
-                              <p className="font-crimson text-sm text-gray-400 mb-6 flex-grow">{story.description}</p>
-                              
-                              <div className="mt-auto">
-                                <button 
-                                  onClick={() => setActiveStory({ era, story })}
-                                  className="inline-flex items-center gap-2 font-cinzel text-xs tracking-widest text-gold-muted group-hover:text-amber-400 hover:underline uppercase transition-colors"
-                                >
-                                  <span>Leer Historia</span>
-                                  <span className="text-xl leading-none">→</span>
-                                </button>
+                                <h4 className="font-cinzel text-xl text-gold-light mb-3 group-hover:text-gold-bright transition-colors">{story.title}</h4>
+                                <p className="font-crimson text-sm text-gray-400 mb-6 flex-grow">{story.excerpt || 'Haz clic para leer el relato de la historia.'}</p>
+                                
+                                <div className="mt-auto">
+                                  <Link 
+                                    href={`/articulos/${story.slug.current}`}
+                                    className="inline-flex items-center gap-2 font-cinzel text-xs tracking-widest text-gold-muted group-hover:text-amber-400 hover:underline uppercase transition-colors"
+                                  >
+                                    <span>Leer Historia Completa</span>
+                                    <span className="text-xl leading-none">→</span>
+                                  </Link>
+                                </div>
                               </div>
+                            );
+                          }) : (
+                            <div className="col-span-full border border-dashed border-gold-dark/20 p-6 opacity-60 text-center bg-black/40">
+                              <span className="text-gold-dark text-3xl mb-2 inline-block">✦</span>
+                              <p className="font-cinzel tracking-widest text-gold-muted uppercase text-sm mt-3 leading-relaxed">
+                                Sin crónicas disponibles<br/>Nuevos descubrimientos esperan
+                              </p>
                             </div>
-                          ))}
+                          )}
                           
                           {/* Tarjeta de "Placeholder" visual para más eras/historias */}
                           <div className="border border-dashed border-gold-dark/20 p-6 flex flex-col items-center justify-center opacity-40 hover:opacity-100 transition-opacity cursor-default bg-black/40">
@@ -496,7 +512,15 @@ function SectionContent({
                   </AnimatePresence>
                 </div>
               );
-            })}
+            }) : (
+              <div className="py-24 border border-dashed border-gold-dark/20 bg-black/40 flex flex-col items-center justify-center text-center">
+                 <span className="text-gold-dark/50 text-5xl mb-4 inline-block drop-shadow-lg">✧</span>
+                 <h3 className="font-cinzel text-2xl text-gold-muted uppercase tracking-widest mb-3">No hay eras descubiertas</h3>
+                 <p className="font-crimson text-lg text-gray-500 max-w-lg">
+                   Visita el panel de Sanity y añade "Categorías" para que aparezcan aquí como Eras Históricas.
+                 </p>
+              </div>
+            )}
           </div>
         ) : section.id === 'videojuegos' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 text-left mt-10 max-w-[1500px] mx-auto px-4 md:px-0">
@@ -789,7 +813,7 @@ function SectionContent({
                   )}
 
                   {/* Resto de párrafos */}
-                  {activeStory.story.content.slice(1).map((paragraph, idx) => (
+                  {activeStory.story.content.slice(1).map((paragraph: string, idx: number) => (
                     <p key={idx} className="font-crimson text-lg md:text-xl text-gray-300 leading-relaxed drop-shadow-sm text-justify">
                       {paragraph}
                     </p>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // ─── Columnas del footer ──────────────────────────────────────────────────────
 const FOOTER_LINKS = {
@@ -25,6 +26,9 @@ const FOOTER_LINKS = {
 } as const;
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/studio')) return null;
+
   return (
     <footer
       className="relative pt-16 pb-8 px-6"
