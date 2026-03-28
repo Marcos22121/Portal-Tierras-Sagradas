@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description:
     'Portal enciclopédico de la mitología de Tierras Sagradas. Explora leyendas, biografías, tierras y más.',
   keywords: ['Tierras Sagradas', 'mitología', 'fantasía', 'leyendas', 'lore', 'wiki'],
+  icons: {
+    icon: '/images/demas/banner.webp',
+  },
 };
 
 export default function RootLayout({

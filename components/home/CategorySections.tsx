@@ -172,10 +172,10 @@ const ERAS_LORE = [
     ]
   },
   {
-    id: 'era-cismo',
-    title: 'Era del Cismo',
+    id: 'era-cisma',
+    title: 'Era del Cisma',
     description: 'El gran quiebre. El mundo se dividió, las antiguas alianzas se rompieron y la magia fluyó libremente y sin control.',
-    imagePath: '/images/leyendas/era-cismo.jpg',
+    imagePath: '/images/leyendas/era-cisma.jpg',
     stories: [
       { 
         id: 'fractura', 
@@ -242,6 +242,40 @@ const BIOGRAFIAS_LORE = [
       link: '#museo',
       museoId: 'baston-lagh'
     }
+  },
+  {
+    id: 'mymp',
+    name: 'MYMP',
+    shortDesc: 'Guerrero de la Búsqueda Constante',
+    imagePath: '/images/biografias/MYMP.webp',
+    biography: [
+      'Mymp es reconocido como uno de los guerreros principales de las Tierras Sagradas, una figura que, con el tiempo, se ha vuelto sinónimo de combate, determinación y búsqueda incesante.',
+      'Su historia no se escribe sola; mantiene vínculos cercanos con Augrimm, Ignamund, Utared y Sigtrygrr, con quienes ha compartido enfrentamientos y recorridos a lo largo de las tierras. Su relación con ellos no solo se basa en la batalla, sino en una conexión forjada a través de las letales circunstancias que atravesaron juntos.',
+      'Uno de los aspectos más distintivos de Mymp es su vínculo con las dobles espadas míticas del sol y la luna. Todo comenzó a partir de una visión inexplicable. A partir de ese momento, desarrolló una obsesión implacable que lo llevó a recorrer mares y territorios donde la magia misma alteraba las reglas de la realidad.',
+      'A pesar de los combates en soledad y las extremas condiciones, jamás abandonó su objetivo. Aunque no está documentado cómo consiguió finalmente las espadas, el abrumador poder dual —solar y lunar— que libera cada uno de sus golpes es evidente para todo aquel que presencie su destreza en batalla.',
+      'Fuera del combate, su personalidad se inclina puramente hacia la exploración, el viaje y el descubrimiento de nuevos horizontes, cazando monstruos con suprema precisión a su paso e impulsado por un destino aún en construcción.'
+    ],
+    characteristics: [
+      'Cabello rubio oscuro, rostro sin barba y complexión atlética',
+      'Porta una majestuosa armadura de tonos negros y dorados, fiel representante de la dualidad en la que combate',
+      'Actitud exploradora constante guiada por misteriosas visiones divinas'
+    ],
+    weapon: {
+      name: 'Espadas del Sol y la Luna',
+      imagePath: '/images/armas/espadas-sol-luna.webp',
+      description: 'Armas duales legendarias de la creación. Al ser empuñadas, cada golpe entrelaza energías místicas, quemando con el poder de una estrella y cortando ilusiones con la pureza lunar.',
+      link: '#museo',
+      museoId: 'espadas-sol-luna'
+    },
+    additionalArtifacts: [
+      {
+        name: 'Anillos Skefl',
+        imagePath: '/images/armas/anillos-skefl.webp',
+        description: 'Dos oscuros anillos místicamente ligados a las armas de Mymp. Permiten canalizar el lamento y comunicarse con las almas atrapadas (condenadas a eterno dolor) dentro de sus espadas duales.',
+        link: '#museo',
+        museoId: 'anillos-skefl'
+      }
+    ]
   }
 ];
 
@@ -268,6 +302,36 @@ const MUSEO_LORE = [
       { label: 'Origen', value: 'Imperio del Lag' },
       { label: 'Rango', value: 'Artefacto Mítico' },
       { label: 'Estado', value: 'En posesión del Emperador' }
+    ]
+  },
+  {
+    id: 'espadas-sol-luna',
+    categoryId: 'armas',
+    name: 'Espadas del Sol y la Luna',
+    imagePath: '/images/armas/espadas-sol-luna.webp',
+    description: [
+      'Poderosas hojas forjadas metafísicamente a través del choque de energías opuestas de la creación antigua. Según las leyendas ocultas, quien las porte se convierte en el avatar mismo de la dualidad cósmica.',
+      'Cuando son empuñadas al unísono, son capaces de refractar y consumir cualquier tipo de energía elemental, devolviendo golpes potenciados formados por luz cegadora y sombras afiladas.'
+    ],
+    stats: [
+      { label: 'Origen', value: 'Reinos del Eclipse' },
+      { label: 'Rango', value: 'Armamento Divino' },
+      { label: 'Estado', value: 'Empuñadas por Mymp' }
+    ]
+  },
+  {
+    id: 'anillos-skefl',
+    categoryId: 'reliquias',
+    name: 'Anillos Skefl',
+    imagePath: '/images/armas/anillos-skefl.webp',
+    description: [
+      'Dos extraños anillos compuestos de un material oscuro. Son cálidos al tacto pero transmiten un sutil lamento directo al subconsciente de quien los ponga en sus dedos.',
+      'Múltiples teóricos especulan que estos anillos son en realidad canales milenarios, diseñados originalmente no para portar magia, sino para encapsular almas condenadas al sufrimiento forzoso en sintonía con las armas del portador.'
+    ],
+    stats: [
+      { label: 'Origen', value: 'Desconocido' },
+      { label: 'Peligrosidad', value: 'Extrema (Condena Mental)' },
+      { label: 'Estado', value: 'Uso Activo' }
     ]
   }
 ];
@@ -821,48 +885,50 @@ function SectionContent({
                     ))}
                   </ul>
 
-                  {/* Sección especial: Arma/Poder */}
+                  {/* Sección especial: Armamento y Artefactos */}
                   <div className="mt-4 pt-8 w-full border-t border-gold-dark/20">
                     <h4 className="font-cinzel text-xl text-gold-light mb-6 flex items-center gap-3">
-                      <span className="text-gold-dark text-sm">✦</span> Arma principal / Poder
+                      <span className="text-gold-dark text-sm">✦</span> Armamento y Artefactos Ligados
                     </h4>
 
-                    {activeBio.weapon && (
-                      <div className="flex flex-col sm:flex-row gap-6 items-start bg-black/40 border border-[rgba(201,168,76,0.1)] p-6 rounded-sm">
-                        {/* Imágen del arma 1:1 */}
-                        <div className="w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 aspect-square border border-gold-dark/20 rounded shadow-md overflow-hidden flex items-center justify-center bg-black/60">
-                          <img 
-                            src={activeBio.weapon.imagePath} 
-                            alt={activeBio.weapon.name} 
-                          className="w-full h-full object-cover opacity-90"
-                            onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML += '<span class="text-gold-dark/40 text-sm font-cinzel text-center leading-tight absolute">Mito<br/>Perdido</span>'; }}
-                          />
-                        </div>
+                    <div className="flex flex-col gap-6 w-full">
+                      {[activeBio.weapon, ...((activeBio as any).additionalArtifacts || [])].filter(Boolean).map((artItem, idx) => (
+                        <div key={idx} className="flex flex-col sm:flex-row gap-6 items-start bg-black/40 border border-[rgba(201,168,76,0.1)] p-6 rounded-sm w-full">
+                          {/* Imágen del arma 1:1 */}
+                          <div className="w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 aspect-square border border-gold-dark/20 rounded shadow-md overflow-hidden flex items-center justify-center bg-black/60">
+                            <img 
+                              src={artItem.imagePath} 
+                              alt={artItem.name} 
+                              className="w-full h-full object-cover opacity-90 transition-transform duration-500 hover:scale-110"
+                              onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML += '<span class="text-gold-dark/40 text-sm font-cinzel text-center leading-tight absolute">Mito<br/>Perdido</span>'; }}
+                            />
+                          </div>
 
-                        {/* Textos del arma */}
-                        <div className="flex flex-col flex-grow items-start h-full">
-                          <h5 className="font-cinzel text-lg text-gold-light mb-2">{activeBio.weapon.name}</h5>
-                          <p className="font-crimson text-sm text-gray-400 mb-4">{activeBio.weapon.description}</p>
-                          
-                          {/* Enlace o Botón para abrir Artefacto */}
-                          {(activeBio.weapon as any).museoId ? (
-                             <button
-                               onClick={() => handleOpenArtifact((activeBio.weapon as any).museoId)}
-                               className="inline-flex mt-auto border-b border-gold-dark/40 text-gold-muted hover:text-gold-light hover:border-gold-light pb-0.5 font-cinzel text-[11px] font-bold tracking-[0.2em] uppercase transition-all"
-                             >
-                               Investigar artefacto →
-                             </button>
-                          ) : (
-                             <a 
-                               href={activeBio.weapon.link}
-                               className="inline-flex mt-auto border-b border-gold-dark/40 text-gold-muted hover:text-gold-light hover:border-gold-light pb-0.5 font-cinzel text-[11px] font-bold tracking-[0.2em] uppercase transition-all"
-                             >
-                               Investigar artefacto →
-                             </a>
-                          )}
+                          {/* Textos del arma */}
+                          <div className="flex flex-col flex-grow items-start h-full">
+                            <h5 className="font-cinzel text-lg text-gold-light mb-2">{artItem.name}</h5>
+                            <p className="font-crimson text-sm text-gray-400 mb-4">{artItem.description}</p>
+                            
+                            {/* Enlace o Botón para abrir Artefacto */}
+                            {artItem.museoId ? (
+                               <button
+                                 onClick={() => handleOpenArtifact(artItem.museoId)}
+                                 className="inline-flex mt-auto border-b border-gold-dark/40 text-gold-muted hover:text-gold-light hover:border-gold-light pb-0.5 font-cinzel text-[11px] font-bold tracking-[0.2em] uppercase transition-all"
+                               >
+                                 Investigar artefacto →
+                               </button>
+                            ) : (
+                               <a 
+                                 href={artItem.link}
+                                 className="inline-flex mt-auto border-b border-gold-dark/40 text-gold-muted hover:text-gold-light hover:border-gold-light pb-0.5 font-cinzel text-[11px] font-bold tracking-[0.2em] uppercase transition-all"
+                               >
+                                 Investigar artefacto →
+                               </a>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      ))}
+                    </div>
                   </div>
 
                 </div>
