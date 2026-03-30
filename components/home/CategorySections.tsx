@@ -338,6 +338,50 @@ const MUSEO_LORE = [
   }
 ];
 
+// ─── INFO DE TIERRAS (Mockup) ─────────────────────────────────────────────────
+const TIERRAS_LORE = [
+  {
+    id: 'imperio-del-lag',
+    name: 'Imperio del Lag',
+    shortDesc: 'Dominio de la Distorsión Absoluta',
+    imagePath: '/images/tierras/imperio-lag.webp', // Tall horizontal
+    description: [
+      'Bajo el mando del Emperador Lagh, este masivo y temido continente se alza sobre fallas físicas y temporales constantes. Sus colosales ciudades monolíticas, cinceladas en obsidiana hirviendo y magma petrificado, proyectan la sombra de un régimen que prospera a través de la opresión implacable.',
+      'El Imperio no solo somete a sus ciudadanos civiles, sino que ha deformado la mismísima naturaleza del universo mediante el uso forzado de la "Magia del Lag". Este poder aberrante altera las leyes del movimiento y las mareas, haciendo que cualquier asalto exterior sea puramente suicida.'
+    ],
+    pointsOfInterest: [
+      { name: 'Cúpula Mágica Central', type: 'Sede Militar Arcano' },
+      { name: 'Fallas del Eco', type: 'Zona de Anomalía Temporal' },
+      { name: 'Bastión Absoluto', type: 'Castillo Capital' }
+    ],
+    stats: [
+      { label: 'Gobernante', value: 'Emperador LAGH' },
+      { label: 'Clima', value: 'Estático y Opresivo' },
+      { label: 'Peligrosidad', value: 'Máxima' }
+    ]
+  },
+  {
+    id: 'reinos-del-eclipse',
+    name: 'Reinos del Eclipse',
+    shortDesc: 'La Cuna de la Dualidad Cósmica',
+    imagePath: '/images/tierras/reinos-eclipse.webp',
+    description: [
+      'Tierras místicas antiquísimas, envueltas en un eclipse eterno originado tras la legendaria y distante colisión de sus dos inmensas lunas primigenias. Estos reinos sepultados por las cenizas del tiempo albergan una gran cantidad de secretos y energías residuales de los dioses antiguos.',
+      'A día de hoy, los Reinos del Eclipse son ruinas majestuosas sumergidas en sombras perpetuas iluminadas ocasionalmente por auroras lunares y tormentas de partículas solares errantes. Son el lugar de exilio perfecto y el objetivo principal de guerreros de élite que buscan visiones premonitorias.'
+    ],
+    pointsOfInterest: [
+      { name: 'Santuario Solunar', type: 'Templo en Ruinas' },
+      { name: 'Cuenca Sombría', type: 'Cráter de Impacto' },
+      { name: 'Caminos Espejismos', type: 'Desierto de Ilusiones' }
+    ],
+    stats: [
+      { label: 'Gobernante', value: 'Ninguno / Olvidado' },
+      { label: 'Clima', value: 'Oscuridad Perpetua' },
+      { label: 'Peligrosidad', value: 'Alta (Mística)' }
+    ]
+  }
+];
+
 // ─── Placeholder de sección ───────────────────────────────────────────────────
 function SectionContent({
   section,
@@ -351,6 +395,7 @@ function SectionContent({
   const [activeStory, setActiveStory] = useState<any | null>(null);
   const [activeBio, setActiveBio] = useState<typeof BIOGRAFIAS_LORE[0] | null>(null);
   const [activeArtifact, setActiveArtifact] = useState<typeof MUSEO_LORE[0] | null>(null);
+  const [activeTierra, setActiveTierra] = useState<typeof TIERRAS_LORE[0] | null>(null);
   const [museoActiveCategory, setMuseoActiveCategory] = useState<string>('armas');
 
   const toggleEra = (eraId: string) => {
@@ -367,12 +412,12 @@ function SectionContent({
 
   // Prevenir scroll cuando cualquier modal está abierto
   useEffect(() => {
-    if (activeStory || activeBio || activeArtifact) {
+    if (activeStory || activeBio || activeArtifact || activeTierra) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
-  }, [activeStory, activeBio, activeArtifact]);
+  }, [activeStory, activeBio, activeArtifact, activeTierra]);
 
   return (
     <div
@@ -521,6 +566,43 @@ function SectionContent({
                  </p>
               </div>
             )}
+          </div>
+        ) : section.id === 'tierras' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 w-full max-w-[1100px] mx-auto text-left">
+            {TIERRAS_LORE.map((tierra) => (
+              <div key={tierra.id} className="group relative flex flex-col bg-black/50 border border-gold-dark/20 rounded-sm overflow-hidden p-5 hover:border-gold-light/40 transition-all duration-300">
+                {/* Imagen del recuadro un poco más alta que 16:9 -> 4:3 o 16:10 */}
+                <div className="w-full aspect-[4/3] xl:aspect-[16/10] overflow-hidden rounded relative mb-5 shadow-lg shadow-black/80">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20 z-10 opacity-70 group-hover:opacity-40 transition-opacity"></div>
+                  <img 
+                    src={tierra.imagePath} 
+                    alt={tierra.name} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 relative z-0" 
+                    onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML += '<span class="text-gold-dark/30 text-[4rem] absolute z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">✧</span>'; }} 
+                  />
+                  <span className="absolute bottom-4 left-4 z-20 font-cinzel text-xs tracking-widest text-gold-light px-2 py-1 bg-black/60 border border-gold-dark/50 uppercase backdrop-blur-sm">
+                    {tierra.shortDesc}
+                  </span>
+                </div>
+                
+                <h3 className="font-cinzel text-2xl font-bold text-gold-gradient mb-3 tracking-wide">{tierra.name}</h3>
+                
+                <p className="font-crimson text-gray-400 text-base leading-relaxed line-clamp-3 mb-6 flex-grow">
+                  {tierra.description[0]}
+                </p>
+
+                <div className="mt-auto flex justify-between items-center w-full border-t border-gold-dark/10 pt-6">
+                   <button
+                     onClick={() => setActiveTierra(tierra)}
+                     className="inline-flex items-center gap-2 font-cinzel text-sm md:text-base tracking-widest text-gold-light group-hover:text-gold-bright uppercase transition-colors hover:scale-105 transform origin-left"
+                   >
+                     <span>Explorar Tierra</span>
+                     <span>→</span>
+                   </button>
+                   <span className="text-gold-dark/30 text-xl">✧</span>
+                </div>
+              </div>
+            ))}
           </div>
         ) : section.id === 'videojuegos' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 text-left mt-10 max-w-[1500px] mx-auto px-4 md:px-0">
@@ -1045,6 +1127,130 @@ function SectionContent({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ─── MODAL DE TIERRAS (DISEÑO MÍTICO AVANZADO) ─── */}
+      <AnimatePresence>
+        {activeTierra && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 flex items-center justify-center p-0 md:p-6 lg:p-10 pt-[80px] md:pt-[90px] lg:pt-[100px] bg-black/90 backdrop-blur-md"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 40 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="relative w-full max-w-[1400px] h-full md:h-[85vh] flex flex-col rounded-sm overflow-hidden bg-obsidian shadow-[0_0_150px_rgba(0,0,0,0.95)]"
+              style={{ background: '#0a0a0a', border: '1px solid rgba(201,168,76,0.25)' }}
+            >
+              {/* Botón Cerrar */}
+              <button
+                onClick={() => setActiveTierra(null)}
+                className="absolute top-4 right-4 md:top-6 md:right-8 z-[70] bg-black/50 hover:bg-black text-gold-light p-3 rounded-full border border-gold-dark/40 backdrop-blur-md transition-all cursor-pointer group shadow-[0_0_15px_rgba(0,0,0,0.8)]"
+              >
+                <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(201,168,76,0.8)]" />
+              </button>
+
+              <div className="w-full h-full overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gold-light/20 scrollbar-track-transparent relative z-10">
+                
+                {/* HERO HEADER DE LA TIERRA */}
+                <div className="w-full relative h-[45vh] md:h-[60vh] flex-shrink-0 flex items-end justify-center overflow-hidden border-b border-gold-dark/30">
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-[#0a0a0a] z-10"></div>
+                  
+                  {/* Foto de la tierra de fondo grande */}
+                  <img src={activeTierra.imagePath} alt={activeTierra.name} className="absolute inset-0 w-full h-full object-cover animate-pulse-slow origin-center scale-105 mix-blend-screen opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                  
+                  {/* Textura de reliquia superpuesta */}
+                  <div className="absolute inset-0 z-0 opacity-20 bg-[url('/images/ui/texture-dark.png')] bg-cover mix-blend-overlay"></div>
+
+                  <div className="relative z-20 w-full px-6 md:px-16 pb-12 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div className="flex flex-col items-center md:items-start max-w-4xl">
+                      <span className="font-cinzel text-sm md:text-base tracking-[0.4em] text-gold-muted uppercase mb-3 px-4 py-1.5 border border-gold-dark/30 bg-black/40 backdrop-blur-sm shadow-[0_0_15px_rgba(201,168,76,0.1)]">
+                        {activeTierra.shortDesc}
+                      </span>
+                      <h2 className="font-cinzel text-5xl md:text-7xl lg:text-8xl font-bold tracking-[0.05em] uppercase text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] mb-2" style={{ textShadow: '0 0 40px rgba(255,215,0,0.3), 0 5px 20px rgba(0,0,0,0.9)' }}>
+                        {activeTierra.name}
+                      </h2>
+                    </div>
+
+                    {/* Contenedor de stats flotante en Desktop */}
+                    <div className="hidden md:flex flex-col gap-3 min-w-[280px] mb-2">
+                      {activeTierra.stats.map((stat, idx) => (
+                        <div key={idx} className="bg-black/60 backdrop-blur-md border border-gold-dark/30 p-4 shadow-[0_4px_20px_rgba(0,0,0,0.5)] flex flex-row items-center justify-between">
+                          <span className="font-cinzel text-[11px] text-gray-400 uppercase tracking-widest">{stat.label}</span>
+                          <span className="font-cinzel text-sm text-gold-light font-bold uppercase drop-shadow-[0_0_5px_rgba(201,168,76,0.4)]">{stat.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* CONTENIDO PRINCIPAL DE LA LEYENDA */}
+                <div className="w-full mx-auto px-6 md:px-16 py-12 md:py-20 flex flex-col lg:flex-row gap-16 relative z-20 max-w-[1400px]">
+                  
+                  {/* Descripcion Inmersiva Izquierda */}
+                  <div className="w-full lg:w-3/5 flex flex-col">
+                    <h4 className="font-cinzel text-3xl text-gold-light mb-8 flex items-center gap-4 border-b border-gold-dark/20 pb-4">
+                      <span className="text-gold-dark text-xl drop-shadow-lg">✦</span> Archivos del Reino
+                    </h4>
+                    <div className="space-y-6 text-gray-300 font-crimson text-xl leading-[1.8] text-justify opacity-90">
+                      {activeTierra.description.map((p, idx) => (
+                         <p key={idx} className={idx === 0 ? "text-2xl text-gold-muted leading-relaxed drop-shadow-md" : ""}>{p}</p>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Panel Lateral Interactivo */}
+                  <div className="w-full lg:w-2/5 flex flex-col gap-12">
+                     
+                     {/* Stats Movil */}
+                     <div className="md:hidden flex flex-col gap-3 w-full border-t border-gold-dark/20 pt-8">
+                      {activeTierra.stats.map((stat, idx) => (
+                        <div key={idx} className="bg-black/40 border border-gold-dark/30 p-4 flex flex-row items-center justify-between shadow-md">
+                          <span className="font-cinzel text-[10px] text-gray-400 uppercase tracking-widest">{stat.label}</span>
+                          <span className="font-cinzel text-sm text-gold-light font-bold uppercase">{stat.value}</span>
+                        </div>
+                      ))}
+                     </div>
+
+                     {/* Puntos de Interés / Zonas */}
+                     <div className="bg-black/30 border border-gold-dark/10 p-6 md:p-8 rounded-sm shadow-inner">
+                       <h4 className="font-cinzel text-2xl text-gold-light mb-8 flex items-center gap-3">
+                         <span className="text-gold-dark text-lg drop-shadow-[0_0_5px_rgba(201,168,76,1)]">✧</span> Puntos de Interés Famosos
+                       </h4>
+                       <div className="flex flex-col gap-5">
+                         {activeTierra.pointsOfInterest.map((poi, idx) => (
+                           <div key={idx} className="group relative flex items-center gap-5 p-4 bg-black/50 border border-gold-dark/20 hover:bg-[#0c0c0c] hover:border-gold-dark/60 transition-all rounded-sm cursor-default shadow-[0_5px_15px_rgba(0,0,0,0.5)] overflow-hidden">
+                             {/* Linea vertical highlight indicando hover */}
+                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                             
+                             <div className="w-12 h-12 rounded-full border border-gold-dark/40 bg-black flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(0,0,0,0.9)] group-hover:scale-110 transition-transform">
+                               <span className="text-gold-muted text-lg font-bold group-hover:text-white transition-colors">⟡</span>
+                             </div>
+                             <div className="flex flex-col z-10">
+                               <span className="font-cinzel text-[17px] text-gold-light group-hover:text-gold-bright transition-colors tracking-widest drop-shadow-md">{poi.name}</span>
+                               <span className="font-crimson text-sm text-gray-400 italic mt-1 group-hover:text-gray-300 transition-colors uppercase tracking-widest">{poi.type}</span>
+                             </div>
+                           </div>
+                         ))}
+                       </div>
+                     </div>
+
+                     {/* Emblema extra visual abajo de la columna */}
+                     <div className="hidden lg:flex flex-grow items-end justify-center pb-10 opacity-30 mt-10">
+                       <span className="text-[6rem] text-gold-dark filter blur-[1px]">✦</span>
+                     </div>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }
