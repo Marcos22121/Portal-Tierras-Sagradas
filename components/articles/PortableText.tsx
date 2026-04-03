@@ -2,7 +2,7 @@ import { PortableText as PortableTextComponent } from '@portabletext/react'
 
 export const PortableText = ({ value }: { value: any }) => {
   return (
-    <div className="font-crimson text-lg leading-relaxed space-y-4">
+    <div className="font-crimson text-lg leading-relaxed space-y-4 portable-text-container text-gray-300">
       <PortableTextComponent
         value={value}
         components={{

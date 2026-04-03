@@ -48,9 +48,9 @@ const MUSEO_TABS = [
 
 // ── Tierras type labels ────────────────────────────────────────────────────
 const LAND_TYPE_LABELS: Record<string, string> = {
-  'punto-de-interes': '🏛 Punto de Interés',
-  'region': '🌲 Región',
-  'pueblo-ciudad': '🏘 Pueblo / Ciudad',
+  'punto-de-interes': 'Punto de Interés',
+  'region': 'Región',
+  'pueblo-ciudad': 'Pueblo / Ciudad',
 };
 
 const DANGER_COLORS: Record<string, string> = {
@@ -160,13 +160,15 @@ export default function CategorySections({
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
           >
-            <SectionContent
-              section={SECTIONS.find((s) => s.id === active)!}
-              dynamicEras={dynamicEras}
-              biographies={biographies}
-              museumItems={museumItems}
-              lands={lands}
-            />
+            <div className="min-h-[400px]">
+              <SectionContent
+                section={SECTIONS.find((s) => s.id === active)!}
+                dynamicEras={dynamicEras}
+                biographies={biographies}
+                museumItems={museumItems}
+                lands={lands}
+              />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -198,7 +200,7 @@ function SectionContent({
   return (
     <div
       id={section.id}
-      className="relative px-6 md:px-16 lg:px-24 py-20 overflow-hidden"
+      className="relative px-6 md:px-16 lg:px-24 py-20 overflow-hidden min-h-[600px] flex flex-col items-center"
       style={{
         background: 'var(--obsidian-surface)',
         borderTop: '1px solid rgba(201,168,76,0.12)',
@@ -207,16 +209,10 @@ function SectionContent({
     >
       <CosmosBackground />
 
-      {/* Decoración de esquinas */}
-      <Corner pos="top-0 left-0 z-10 relative" />
-      <Corner pos="top-0 right-0 z-10 relative" mirror />
-      <Corner pos="bottom-0 left-0 z-10 relative" flipV />
-      <Corner pos="bottom-0 right-0 z-10 relative" mirror flipV />
-
       <div className="max-w-[1600px] w-full mx-auto text-center relative z-10">
         {/* Título de la sección */}
         <h2
-          className="font-cinzel text-3xl md:text-4xl font-bold mb-4 text-gold-gradient"
+          className="font-cinzel text-3xl md:text-4xl font-bold mb-4 text-gold-gradient gold-glow-hover"
           style={{
             background: 'var(--gradient-gold)',
             backgroundSize: '200% auto',
@@ -277,17 +273,17 @@ function SectionContent({
                         <div className="p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
                           <div className="hidden md:block absolute left-4 md:left-8 top-10 bottom-10 w-px bg-gold-dark/20" />
                           {era.articles && era.articles.length > 0 ? era.articles.map((story: any) => {
-                            const storyBgUrl = story.coverImage ? urlForImage(story.coverImage)?.url() : null;
+                            const storyBgUrl = story.coverImage ? urlForImage(story.coverImage)?.width(600).height(400).url() : null;
                             return (
                               <div key={story._id} className="border border-gold-dark/20 p-5 flex flex-col group hover:border-gold-dark/70 transition-colors relative bg-[#0a0a0a]/80">
-                                <div className="w-[65%] mx-auto aspect-square relative mb-6 overflow-hidden border border-gold-dark/20 bg-black/60 flex items-center justify-center rounded-sm shadow-[0_4px_15px_rgba(0,0,0,0.6)]">
+                                <div className="w-full aspect-[3/2] relative mb-6 overflow-hidden border border-gold-dark/20 bg-black/60 flex items-center justify-center rounded-sm shadow-[0_4px_15px_rgba(0,0,0,0.6)]">
                                   {storyBgUrl && <img src={storyBgUrl} alt={story.title} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />}
                                   <span className="text-gold-dark/20 text-4xl absolute z-[-1]">✦</span>
                                 </div>
                                 <h4 className="font-cinzel text-xl text-gold-light mb-3 group-hover:text-gold-bright transition-colors">{story.title}</h4>
                                 <p className="font-crimson text-sm text-gray-400 mb-6 flex-grow">{story.excerpt || 'Haz clic para leer el relato.'}</p>
                                 <div className="mt-auto">
-                                  <Link href={`/articulos/${story.slug.current}`} className="inline-flex items-center gap-2 font-cinzel text-xs tracking-widest text-gold-muted group-hover:text-amber-400 hover:underline uppercase transition-colors">
+                                  <Link href={`/leyendas/${story.slug.current}`} className="inline-flex items-center gap-2 font-cinzel text-xs tracking-widest text-gold-muted group-hover:text-amber-400 hover:underline uppercase transition-colors">
                                     <span>Leer Historia Completa</span><span className="text-xl leading-none">→</span>
                                   </Link>
                                 </div>
@@ -334,7 +330,7 @@ function SectionContent({
                   <div className="w-full pt-6 pb-8 px-4 flex flex-col items-center flex-grow relative z-20">
                     <span className="font-crimson text-xs italic text-gray-400 mb-2 tracking-widest uppercase">{bio.shortDescription || ''}</span>
                     <h3
-                      className="font-cinzel text-xl md:text-2xl font-bold tracking-[0.1em] uppercase group-hover:scale-105 transition-transform"
+                      className="font-cinzel text-xl md:text-2xl font-bold tracking-[0.1em] uppercase group-hover:scale-105 transition-transform gold-glow-hover"
                       style={{
                         background: 'var(--gradient-gold)',
                         backgroundSize: '200% auto',
@@ -389,10 +385,8 @@ function SectionContent({
                     <span className={`relative z-10 font-cinzel text-xs md:text-sm tracking-[0.25em] font-bold uppercase transition-colors ${
                       museoActiveCategory === cat.id ? 'text-gold-light drop-shadow-md' : 'text-gray-400 group-hover:text-gold-muted'
                     }`}>
-                      {cat.label}
+                      <span>{cat.label}</span>
                     </span>
-                    <span className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-gold-dark/40 opacity-50" />
-                    <span className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-gold-dark/40 opacity-50" />
                   </button>
                 ))}
               </div>
@@ -464,7 +458,7 @@ function SectionContent({
                     </span>
                   </div>
 
-                  <h3 className="font-cinzel text-2xl font-bold text-gold-gradient mb-3 tracking-wide">{tierra.name}</h3>
+                  <h3 className="font-cinzel text-2xl font-bold text-gold-gradient mb-3 tracking-wide gold-glow-hover">{tierra.name}</h3>
                   {tierra.title && <p className="font-crimson text-sm text-gold-muted italic mb-2">{tierra.title}</p>}
 
                   {/* Metadata badges */}
@@ -549,21 +543,5 @@ function EmptyState({ message }: { message: string }) {
       <span className="text-gold-dark/50 text-5xl mb-4 inline-block drop-shadow-lg">✧</span>
       <p className="font-crimson text-lg text-gray-500 max-w-lg">{message}</p>
     </div>
-  );
-}
-
-// ─── Decoración de esquinas ───────────────────────────────────────────────────
-function Corner({ pos, mirror = false, flipV = false }: { pos: string; mirror?: boolean; flipV?: boolean }) {
-  return (
-    <span
-      className={`absolute ${pos} w-8 h-8`}
-      style={{
-        borderTop: flipV ? 'none' : '1px solid var(--gold-dark)',
-        borderBottom: flipV ? '1px solid var(--gold-dark)' : 'none',
-        borderLeft: mirror ? 'none' : '1px solid var(--gold-dark)',
-        borderRight: mirror ? '1px solid var(--gold-dark)' : 'none',
-        opacity: 0.6,
-      }}
-    />
   );
 }

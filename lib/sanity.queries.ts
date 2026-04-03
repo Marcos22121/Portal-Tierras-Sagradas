@@ -1,32 +1,17 @@
 import { groq } from 'next-sanity'
 
-// ─── ARTÍCULOS (Leyendas) ────────────────────────────────────────────────────
-export const articlesQuery = groq`
-  *[_type == "article" && defined(slug.current)] | order(publishedAt desc) {
-    _id, title, slug, publishedAt, excerpt, coverImage,
-    "category": category->{ title, slug }
+// ─── LEYENDAS ────────────────────────────────────────────────────────────────
+export const legendsQuery = groq`
+  *[_type == "legend" && defined(slug.current)] | order(publishedAt desc) {
+    _id, title, slug, publishedAt, excerpt, coverImage
   }
 `
 
-export const articleBySlugQuery = groq`
-  *[_type == "article" && slug.current == $slug][0] {
+export const legendBySlugQuery = groq`
+  *[_type == "legend" && slug.current == $slug][0] {
     _id, title, slug, body, publishedAt, excerpt, coverImage,
-    "category": category->{ title, slug },
     "era": era->{ title, slug },
     "characters": characters[]->{ _id, name, slug, shortDescription, images }
-  }
-`
-
-export const categoryBySlugQuery = groq`
-  *[_type == "category" && slug.current == $slug][0] {
-    _id, title, description, coverImage
-  }
-`
-
-export const articlesByCategoryQuery = groq`
-  *[_type == "article" && category->slug.current == $categorySlug] | order(publishedAt desc) {
-    _id, title, slug, publishedAt, excerpt, coverImage,
-    "category": category->{ title, slug }
   }
 `
 
@@ -34,7 +19,7 @@ export const articlesByCategoryQuery = groq`
 export const homeErasWithLeyendasQuery = groq`
   *[_type == "era"] | order(title asc) {
     _id, title, slug, description, coverImage,
-    "articles": *[_type == "article" && references(^._id)] | order(publishedAt desc) {
+    "articles": *[_type == "legend" && references(^._id)] | order(publishedAt desc) {
       _id, title, slug, excerpt, coverImage
     }
   }
@@ -57,7 +42,7 @@ export const biographyBySlugQuery = groq`
     "equipment": equipment[]->{ _id, name, slug, coverImage, itemType },
     faction, religion, placeOfOrigin,
     "placeOfOriginRef": placeOfOriginRef->{ _id, name, slug },
-    "legends": *[_type == "article" && references(^._id)] | order(publishedAt desc) {
+    "legends": *[_type == "legend" && references(^._id)] | order(publishedAt desc) {
       _id, title, slug, excerpt, coverImage,
       "era": era->{ title }
     }
@@ -74,7 +59,7 @@ export const allMuseumItemsQuery = groq`
 
 export const museumItemBySlugQuery = groq`
   *[_type == "museumItem" && slug.current == $slug][0] {
-    _id, name, slug, itemType, description, coverImage,
+    _id, name, slug, itemType, description, coverImage, headerImage,
     origin, creator,
     "bearer": bearer->{ _id, name, slug, shortDescription, images }
   }
@@ -83,7 +68,7 @@ export const museumItemBySlugQuery = groq`
 // ─── TIERRAS ─────────────────────────────────────────────────────────────────
 export const allLandsQuery = groq`
   *[_type == "land"] | order(name asc) {
-    _id, name, slug, title, landType, images, dangerLevel,
+    _id, name, slug, title, landType, images, headerImage, dangerLevel,
     "parentLocation": parentLocation->{ _id, name, slug },
     "ruler": ruler->{ _id, name, slug }
   }
@@ -91,7 +76,7 @@ export const allLandsQuery = groq`
 
 export const landBySlugQuery = groq`
   *[_type == "land" && slug.current == $slug][0] {
-    _id, name, slug, title, landType, description, images,
+    _id, name, slug, title, landType, description, images, headerImage,
     climate, biome, dangerLevel,
     "parentLocation": parentLocation->{ _id, name, slug },
     "ruler": ruler->{ _id, name, slug, shortDescription, images },

@@ -279,3 +279,34 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--gold-light);
 }
 
+/* ─── Gold Glow Effect ───────────────────────────────── */
+.gold-glow-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gold-glow-hover:hover {
+  color: var(--gold-bright) !important;
+  text-shadow: 
+    0 0 15px rgba(255, 215, 0, 0.6),
+    0 0 30px rgba(201, 168, 76, 0.3);
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
+  transform: translateY(-2px);
+}
+
+/* ─── Portable Text & Drop Cap ────────────────────────── */
+
+.portable-text-container p:first-of-type::first-letter {
+  float: left;
+  font-family: 'Cinzel', serif;
+  font-size: 4.5rem;
+  line-height: 1;
+  margin-top: 0.1em;
+  margin-right: 0.1em;
+  color: var(--gold-light);
+  text-shadow: 0 0 20px rgba(201,168,76,0.3);
+}
+
+.prose-gold h1, .prose-gold h2, .prose-gold h3 {
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+}

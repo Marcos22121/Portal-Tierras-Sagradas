@@ -30,6 +30,13 @@ export const land = defineType({
       description: 'Frase de flare. Ej: "La Fortaleza Eterna del Norte"',
     }),
     defineField({
+      name: 'headerImage',
+      title: 'Imagen de Cabecera (3:2)',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Imagen principal que se muestra en el fondo del header (Recomendado 3:2).',
+    }),
+    defineField({
       name: 'landType',
       title: 'Tipo de Lugar',
       type: 'string',
@@ -125,9 +132,9 @@ export const land = defineType({
     },
     prepare({ title, subtitle, media }) {
       const typeLabels: Record<string, string> = {
-        'punto-de-interes': '🏛 Punto de Interés',
-        'region': '🌲 Región',
-        'pueblo-ciudad': '🏘 Pueblo / Ciudad',
+        'punto-de-interes': 'Punto de Interés',
+        'region': 'Región',
+        'pueblo-ciudad': 'Pueblo / Ciudad',
       }
       return {
         title,

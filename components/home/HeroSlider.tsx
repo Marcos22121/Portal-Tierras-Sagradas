@@ -13,21 +13,38 @@ import MythicButton from '@/components/ui/MythicButton';
 const SLIDES = [
   {
     id: 1,
-    image: '/images/hero/slide1.jpg', // ← CAMBIÁ ESTA RUTA
-    title: 'Un mundo forjado por los dioses',
-    subtitle: 'Donde la magia teje el destino de héroes, bestias y civilizaciones olvidadas.',
+    image: '/images/hero/slide1.jpg',
+    title: 'Crónicas de lo Eterno',
+    subtitle: 'Los mitos que forjaron el mundo, desde el Vacío Primigenio hasta el fin de los tiempos.',
+    link: '/#leyendas',
   },
   {
     id: 2,
-    image: '/images/hero/slide2.jpg', // ← CAMBIÁ ESTA RUTA
-    title: 'Las crónicas del Origen',
-    subtitle: 'Desde el Vacío Primigenio hasta las guerras que dividieron el cielo.',
+    image: '/images/hero/slide2.jpg',
+    title: 'Forjadores de Destino',
+    subtitle: 'Historias de héroes, villanos y deidades cuyos nombres el tiempo no pudo borrar.',
+    link: '/#biografias',
   },
   {
     id: 3,
-    image: '/images/hero/slide3.jpg', // ← CAMBIÁ ESTA RUTA
-    title: 'Leyendas que no mueren',
-    subtitle: 'Los nombres que el tiempo grabó en piedra, sangre y estrella.',
+    image: '/images/hero/slide3.jpg',
+    title: 'Reliquias de Poder',
+    subtitle: 'Antiguos artefactos y objetos arcanos que guardan los secretos de civilizaciones olvidadas.',
+    link: '/#museo',
+  },
+  {
+    id: 4,
+    image: '/images/hero/slide4.jpg',
+    title: 'Horizontes Sagrados',
+    subtitle: 'Explora los reinos, continentes y lugares misticos donde la magia aún respira.',
+    link: '/#tierras',
+  },
+  {
+    id: 5,
+    image: '/images/hero/slide5.jpg',
+    title: 'Entra en la Leyenda',
+    subtitle: 'Vive la experiencia de Tierras Sagradas a través de nuestras producciones interactivas.',
+    link: '/#videojuegos',
   },
 ];
 
@@ -242,11 +259,15 @@ export default function HeroSlider() {
               variants={textVariants}
               initial="hidden"
               animate="visible"
-              className="mt-4"
+              className="mt-8"
             >
-              <MythicButton href="#leyendas" className="inline-flex">
-                Explorar la Mitología
-              </MythicButton>
+              <a 
+                href={SLIDES[current].link}
+                className="btn-mythic group inline-flex items-center gap-3 px-8 py-4 bg-black/60 border border-gold-dark/40 hover:border-gold-light transition-all shadow-xl gold-glow-hover scale-105"
+              >
+                <span className="btn-text">Explorar la Mitología</span>
+                <span className="text-gold-dark group-hover:text-gold-light transition-colors">→</span>
+              </a>
             </motion.div>
           </motion.div>
         </AnimatePresence>
@@ -256,16 +277,17 @@ export default function HeroSlider() {
       {/* Flecha izquierda */}
       <button
         onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center transition-all duration-300 group"
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center transition-all duration-300 group gold-glow-hover"
         style={{
-          background: 'rgba(8,8,8,0.5)',
-          border: '1px solid rgba(201,168,76,0.25)',
+          background: 'rgba(8,8,8,0.7)',
+          border: '1px solid rgba(201,168,76,0.3)',
+          borderRadius: '2px',
         }}
         aria-label="Anterior"
       >
         <ChevronLeft
-          size={18}
-          style={{ color: 'var(--gold)' }}
+          size={24}
+          style={{ color: 'var(--gold-bright)' }}
           className="transition-transform group-hover:scale-110"
         />
       </button>
@@ -273,16 +295,17 @@ export default function HeroSlider() {
       {/* Flecha derecha */}
       <button
         onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center transition-all duration-300 group"
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center transition-all duration-300 group gold-glow-hover"
         style={{
-          background: 'rgba(8,8,8,0.5)',
-          border: '1px solid rgba(201,168,76,0.25)',
+          background: 'rgba(8,8,8,0.7)',
+          border: '1px solid rgba(201,168,76,0.3)',
+          borderRadius: '2px',
         }}
         aria-label="Siguiente"
       >
         <ChevronRight
-          size={18}
-          style={{ color: 'var(--gold)' }}
+          size={24}
+          style={{ color: 'var(--gold-bright)' }}
           className="transition-transform group-hover:scale-110"
         />
       </button>

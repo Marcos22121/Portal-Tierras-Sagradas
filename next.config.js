@@ -8,6 +8,15 @@ const nextConfig = {
       },
     ],
   },
+
+  // ─── Performance optimizations ──────────────────────────────
+  // Reduce la cantidad de output en la consola
+  logging: {
+    fetches: {
+      fullUrl: false,
+    },
+  },
+
 };
 
 module.exports = nextConfig;

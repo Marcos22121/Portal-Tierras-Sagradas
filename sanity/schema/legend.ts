@@ -1,8 +1,8 @@
 import { defineField, defineType } from 'sanity'
 
-export const article = defineType({
-  name: 'article',
-  title: 'Artículo',
+export const legend = defineType({
+  name: 'legend',
+  title: 'Leyenda',
   type: 'document',
   fields: [
     defineField({
@@ -21,14 +21,7 @@ export const article = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'category',
-      title: 'Categoría Principal',
-      type: 'reference',
-      to: { type: 'category' },
-      validation: (Rule) => Rule.required(),
-      description: 'Elige "Historias", "Personajes", etc.',
-    }),
+
     defineField({
       name: 'era',
       title: 'Era (Solo para Historias/Leyendas)',

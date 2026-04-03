@@ -38,6 +38,13 @@ export const museumItem = defineType({
       validation: (Rule) => Rule.required(),
       description: 'Categoría del objeto dentro del Museo.',
     }),
+    defineField({
+      name: 'headerImage',
+      title: 'Imagen de Cabecera (3:2)',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Imagen panorámica para el fondo del header (Recomendado 3:2).',
+    }),
 
     // ─── CONTENIDO ────────────────────────────────────────────────
     defineField({
@@ -86,9 +93,9 @@ export const museumItem = defineType({
     },
     prepare({ title, subtitle, media }) {
       const typeLabels: Record<string, string> = {
-        armamento: '⚔ Armamento Sagrado',
-        reliquia: '💎 Reliquia Arcana',
-        runa: '✦ Runa',
+        armamento: 'Armamento Sagrado',
+        reliquia: 'Reliquia Arcana',
+        runa: 'Runa',
       }
       return {
         title,

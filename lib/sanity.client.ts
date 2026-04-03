@@ -5,5 +5,5 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Set to false to ensure fresh data always for now
+  useCdn: true, // CDN activado para velocidad extrema
 })

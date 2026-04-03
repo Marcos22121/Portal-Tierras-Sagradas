@@ -9,11 +9,11 @@ import { Menu, X } from 'lucide-react';
 // ─── Categorías de navegación ─────────────────────────────────
 // Agrega o quita categorías aquí para actualizar el menú del header
 const NAV_CATEGORIES = [
-  { label: 'Leyendas',    href: '#leyendas' },
-  { label: 'Biografías',  href: '#biografias' },
-  { label: 'Museo',       href: '#museo' },
-  { label: 'Tierras',     href: '#tierras' },
-  { label: 'Videojuegos', href: '#videojuegos' },
+  { label: 'Leyendas',    href: '/#leyendas' },
+  { label: 'Biografías',  href: '/#biografias' },
+  { label: 'Museo',       href: '/#museo' },
+  { label: 'Tierras',     href: '/#tierras' },
+  { label: 'Videojuegos', href: '/#videojuegos' },
 ] as const;
 
 export default function Header() {
