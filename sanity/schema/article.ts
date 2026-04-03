@@ -37,6 +37,18 @@ export const article = defineType({
       description: 'Si es una leyenda, a qué Era pertenece',
     }),
     defineField({
+      name: 'characters',
+      title: 'Personajes que aparecen',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'biography' }],
+        },
+      ],
+      description: 'Personajes de Biografías que participan en esta leyenda. Se usa para generar la sección "Leyendas donde aparece" en la biografía.',
+    }),
+    defineField({
       name: 'coverImage',
       title: 'Imagen de Portada',
       type: 'image',
