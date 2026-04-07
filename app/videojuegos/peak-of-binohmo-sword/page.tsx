@@ -1645,9 +1645,23 @@ export default function PeakOfBinohmoSwordPage() {
                     Rompe. Forja. Asciende.<br />Alcanza la Cumbre.
                   </h2>
 
-                  <p className="font-crimson text-xl md:text-2xl text-gray-300 max-w-2xl leading-relaxed opacity-80">
+                  <p className="font-crimson text-xl md:text-2xl text-gray-300 max-w-2xl leading-relaxed opacity-80 mb-8">
                     Un juego incremental de <strong className="text-gold-light">minería y forja</strong> donde cada golpe te acerca un paso más a la espada más legendaria que jamás existió.
                   </p>
+
+                  {/* ── Widget Itch.io ── */}
+                  <div className="relative mt-4 w-full flex justify-center px-4">
+                    <div className="absolute inset-0 blur-xl opacity-30 bg-gold-dark/40 rounded-full scale-90 pointer-events-none" />
+                    <iframe 
+                      frameBorder="0" 
+                      src="https://itch.io/embed/4454717?linkback=true&amp;bg_color=140f00&amp;fg_color=cacabe&amp;link_color=d2921a&amp;border_color=534007" 
+                      width="552" 
+                      height="167"
+                      className="relative z-10 max-w-full rounded-md border border-[rgba(201,168,76,0.4)] shadow-[0_10px_30px_rgba(0,0,0,0.8),_0_0_20px_rgba(201,168,76,0.15)] transition-transform hover:scale-[1.02] duration-500"
+                    >
+                      <a href="https://mymp1622.itch.io/peak-of-binohmo-sword">Peak Of Binohmo Sword by MYMP1622</a>
+                    </iframe>
+                  </div>
                 </div>
 
                 {/* ══ 2. LOOP PRINCIPAL — 3 PASOS ══ */}

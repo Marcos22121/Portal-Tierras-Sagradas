@@ -115,10 +115,17 @@ export default function Header() {
             }}
           >
             {NAV_CATEGORIES.map((cat) => (
-              <a
+              <Link
                 key={cat.href}
                 href={cat.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={(e) => {
+                  if (cat.href.startsWith('/#') && window.location.pathname === '/') {
+                    e.preventDefault();
+                    window.history.pushState(null, '', cat.href.replace('/', ''));
+                    window.dispatchEvent(new Event('hashchange'));
+                  }
+                  setMobileOpen(false);
+                }}
                 className="font-cinzel text-sm uppercase tracking-widest py-3 px-2 border-b transition-colors"
                 style={{
                   color: 'var(--gold)',
@@ -126,7 +133,7 @@ export default function Header() {
                 }}
               >
                 {cat.label}
-              </a>
+              </Link>
             ))}
           </motion.nav>
         )}
@@ -140,8 +147,15 @@ function NavLink({ href, label }: { href: string; label: string }) {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <a
+    <Link
       href={href}
+      onClick={(e) => {
+        if (href.startsWith('/#') && window.location.pathname === '/') {
+          e.preventDefault();
+          window.history.pushState(null, '', href.replace('/', ''));
+          window.dispatchEvent(new Event('hashchange'));
+        }
+      }}
       className="relative px-4 py-2 font-cinzel text-xs tracking-[0.15em] uppercase transition-all duration-300"
       style={{
         color: hovered ? 'var(--gold-light)' : 'var(--gold-muted)',
@@ -159,6 +173,6 @@ function NavLink({ href, label }: { href: string; label: string }) {
           background: 'linear-gradient(90deg, transparent, var(--gold), transparent)',
         }}
       />
-    </a>
+    </Link>
   );
 }

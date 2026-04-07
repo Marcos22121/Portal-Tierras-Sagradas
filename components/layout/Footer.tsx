@@ -8,11 +8,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 // ─── Columnas del footer ──────────────────────────────────────────────────────
 const FOOTER_LINKS = {
   explorar: [
-    { label: 'Leyendas', href: '#leyendas' },
-    { label: 'Biografías', href: '#biografias' },
-    { label: 'Museo', href: '#museo' },
-    { label: 'Tierras', href: '#tierras' },
-    { label: 'Videojuegos', href: '#videojuegos' },
+    { label: 'Leyendas', href: '/#leyendas' },
+    { label: 'Biografías', href: '/#biografias' },
+    { label: 'Museo', href: '/#museo' },
+    { label: 'Tierras', href: '/#tierras' },
+    { label: 'Videojuegos', href: '/#videojuegos' },
   ],
   proyecto: [
     { label: 'Sobre el proyecto', action: 'about' },
@@ -280,8 +280,15 @@ function FooterCol({
         {links.map((link) => (
           <li key={link.label}>
             {link.href ? (
-              <a
+              <Link
                 href={link.href}
+                onClick={(e) => {
+                  if (link.href && link.href.startsWith('/#') && window.location.pathname === '/') {
+                    e.preventDefault();
+                    window.history.pushState(null, '', link.href.replace('/', ''));
+                    window.dispatchEvent(new Event('hashchange'));
+                  }
+                }}
                 onMouseEnter={playHoverSound}
                 className="footer-link font-crimson text-sm group flex items-center gap-2"
               >
@@ -290,7 +297,7 @@ function FooterCol({
                   style={{ background: 'var(--gold-dark)', display: 'inline-block' }}
                 />
                 {link.label}
-              </a>
+              </Link>
             ) : (
               <button
                 onClick={() => link.action && onAction?.(link.action)}

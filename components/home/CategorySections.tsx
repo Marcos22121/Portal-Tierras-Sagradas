@@ -101,16 +101,13 @@ export default function CategorySections({
   }, []);
 
   const toggle = (id: string) => {
-    if (active === id) {
-      setActive(null);
-      window.history.pushState(null, '', window.location.pathname);
-    } else {
+    if (active !== id) {
       setActive(id);
       window.history.pushState(null, '', '#' + id);
-      setTimeout(() => {
-        sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
     }
+    setTimeout(() => {
+      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   };
 
   return (
@@ -151,13 +148,12 @@ export default function CategorySections({
       </div>
 
       {/* ── Área de contenido desplegable ─────────────────────── */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {active && (
           <motion.div
             key={active}
-            initial={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
           >
             <div className="min-h-[400px]">
